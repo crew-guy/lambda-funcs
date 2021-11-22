@@ -1,0 +1,37 @@
+service: aws-py
+
+frameworkVersion: '2 || 3'
+
+provider:
+  name: aws
+  runtime: python3.8
+  lambdaHashingVersion: 20201221
+  memorySize: 128
+  timeout: 6
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - 'lambda:*'
+      Resource:
+        - '*'
+
+functions:
+  hello:
+    handler: handler.hello
+  hello2:
+    handler: handler.hello
+    memorySize: 256
+    timeout: 3
+    environment:
+      FIRST_NAME: 'Not Ankit'
+  securedHello:
+    handler: handler.hello
+    vpc:
+      subnetIds:
+        - subnet-04d6297a6d4326aac
+        - subnet-04dc7c345bdfc0c0a
+      securityGroupIds:
+        - sg-0288e8bb410f73690
+
+environment:
+  FIRST_NAME: 'Ankit'
